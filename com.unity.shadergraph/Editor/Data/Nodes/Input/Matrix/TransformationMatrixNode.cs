@@ -9,6 +9,7 @@ namespace UnityEditor.ShaderGraph
     // TODO - Remove this when leaving preview
     public enum TransformationMatrixType
     {
+        None = -1,
         ModelView,
         View,
         Projection,
@@ -16,8 +17,7 @@ namespace UnityEditor.ShaderGraph
         TransposeModelView,
         InverseTransposeModelView,
         ObjectToWorld,
-        WorldToObject,
-        None = 99
+        WorldToObject
     };
 
     public enum UnityMatrixType
