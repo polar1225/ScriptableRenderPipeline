@@ -10,7 +10,9 @@ namespace UnityEngine.Experimental.Rendering.LightweightPipeline
         public RenderOpaqueForwardPass(LightweightForwardRenderer renderer) : base(renderer)
         {}
 
-        public override void Execute(ref ScriptableRenderContext context, ref CullResults cullResults, ref RenderingData renderingData)
+        public override void Execute(ref ScriptableRenderContext context,
+            ref CullResults cullResults,
+            ref RenderingData renderingData)
         {
             CommandBuffer cmd = CommandBufferPool.Get(k_RenderOpaquesTag);
             using (new ProfilingSample(cmd, k_RenderOpaquesTag))

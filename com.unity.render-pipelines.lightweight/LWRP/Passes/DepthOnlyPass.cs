@@ -29,12 +29,14 @@ namespace UnityEngine.Experimental.Rendering.LightweightPipeline
             descriptor = baseDescriptor;
         }
 
-        public DepthOnlyPass(LightweightForwardRenderer renderer) : base(renderer)
+        public DepthOnlyPass()
         {
             RegisterShaderPassName("DepthOnly");
         }
 
-        public override void Execute(ref ScriptableRenderContext context, ref CullResults cullResults, ref RenderingData renderingData)
+        public override void Execute(ref ScriptableRenderContext context,
+            ref CullResults cullResults,
+            ref RenderingData renderingData)
         {
             CommandBuffer cmd = CommandBufferPool.Get(k_DepthPrepassTag);
             using (new ProfilingSample(cmd, k_DepthPrepassTag))

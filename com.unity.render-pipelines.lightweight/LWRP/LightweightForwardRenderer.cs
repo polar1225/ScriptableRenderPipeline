@@ -117,7 +117,7 @@ namespace UnityEngine.Experimental.Rendering.LightweightPipeline
         public void Execute(ref ScriptableRenderContext context, ref CullResults cullResults, ref RenderingData renderingData)
         {
             for (int i = 0; i < m_ActiveRenderPassQueue.Count; ++i)
-                m_ActiveRenderPassQueue[i].Execute(ref context, ref cullResults, ref renderingData);
+                m_ActiveRenderPassQueue[i].Execute(ref TODO, ref context, ref cullResults);
 
             DisposePasses(ref context);
         }

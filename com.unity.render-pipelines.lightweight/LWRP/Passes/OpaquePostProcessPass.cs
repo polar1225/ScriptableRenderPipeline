@@ -4,10 +4,6 @@ namespace UnityEngine.Experimental.Rendering.LightweightPipeline
 {
     public class OpaquePostProcessPass : ScriptableRenderPass
     {
-
-        public OpaquePostProcessPass(LightweightForwardRenderer renderer) : base(renderer)
-        {}
-
         private RenderTargetHandle colorAttachmentHandle { get; set; }
         private RenderTextureDescriptor descriptor { get; set; }
 
@@ -19,7 +15,8 @@ namespace UnityEngine.Experimental.Rendering.LightweightPipeline
             descriptor = baseDescriptor;
         }
 
-        public override void Execute(ref ScriptableRenderContext context, ref CullResults cullResults, ref RenderingData renderingData)
+        public override void Execute(ref ScriptableRenderContext context, ref CullResults cullResults,
+            ref RenderingData renderingData)
         {
             CommandBuffer cmd = CommandBufferPool.Get("Render Opaque PostProcess Effects");
 

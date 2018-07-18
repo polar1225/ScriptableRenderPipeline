@@ -5,7 +5,15 @@ using UnityEngine.Experimental.Rendering.LightweightPipeline;
 using UnityEngine.Rendering;
 
 
-public class CustomLWPipe : MonoBehaviour, IRendererSetup
+public class CustomLWPipe : MonoBehaviour, IRendererSetupProvider
+{
+    public IRendererSetup Create()
+    {
+        return new ACustomLWPipe();
+    }
+}
+
+public class ACustomLWPipe : IRendererSetup
 {
     private SetupForwardRenderingPass m_SetupForwardRenderingPass;
     private CreateLightweightRenderTexturesPass m_CreateLightweightRenderTexturesPass;

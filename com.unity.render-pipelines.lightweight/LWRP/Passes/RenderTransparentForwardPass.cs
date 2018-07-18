@@ -9,7 +9,9 @@ namespace UnityEngine.Experimental.Rendering.LightweightPipeline
         public RenderTransparentForwardPass(LightweightForwardRenderer renderer) : base(renderer)
         {}
 
-        public override void Execute(ref ScriptableRenderContext context, ref CullResults cullResults, ref RenderingData renderingData)
+        public override void Execute(ref ScriptableRenderContext context,
+            ref CullResults cullResults,
+            ref RenderingData renderingData)
         {
             CommandBuffer cmd = CommandBufferPool.Get(k_RenderTransparentsTag);
             using (new ProfilingSample(cmd, k_RenderTransparentsTag))

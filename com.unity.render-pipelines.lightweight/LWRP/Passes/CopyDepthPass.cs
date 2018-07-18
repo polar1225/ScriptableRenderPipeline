@@ -4,16 +4,9 @@ namespace UnityEngine.Experimental.Rendering.LightweightPipeline
 {
     public class CopyDepthPass : ScriptableRenderPass
     {
-        Material m_DepthCopyMaterial;
 
         private RenderTargetHandle source { get; set; }
         private RenderTargetHandle destination { get; set; }
-
-
-        public CopyDepthPass(LightweightForwardRenderer renderer) : base(renderer)
-        {
-            m_DepthCopyMaterial = renderer.GetMaterial(MaterialHandles.DepthCopy);
-        }
 
         public void Setup(RenderTargetHandle source, RenderTargetHandle destination)
         {
@@ -21,8 +14,12 @@ namespace UnityEngine.Experimental.Rendering.LightweightPipeline
             this.destination = destination;
         }
 
-        public override void Execute(ref ScriptableRenderContext context, ref CullResults cullResults, ref RenderingData renderingData)
+        public override void Execute(ref ScriptableRenderContext context,
+            ref CullResults cullResults,
+            ref RenderingData renderingData)
         {
+            var depthCopyMaterial = renderer.GetMaterial(MaterialHandles.DepthCopy);
+            
             CommandBuffer cmd = CommandBufferPool.Get("Depth Copy");
             RenderTargetIdentifier depthSurface = source.Identifier();
             RenderTargetIdentifier copyDepthSurface = destination.Identifier();
@@ -47,14 +44,14 @@ namespace UnityEngine.Experimental.Rendering.LightweightPipeline
                     cmd.EnableShaderKeyword(LightweightKeywordStrings.DepthMsaa2);
                     cmd.DisableShaderKeyword(LightweightKeywordStrings.DepthMsaa4);
                 }
-                cmd.Blit(depthSurface, copyDepthSurface, m_DepthCopyMaterial);
+                cmd.Blit(depthSurface, copyDepthSurface, depthCopyMaterial);
             }
             else
             {
                 cmd.EnableShaderKeyword(LightweightKeywordStrings.DepthNoMsaa);
                 cmd.DisableShaderKeyword(LightweightKeywordStrings.DepthMsaa2);
                 cmd.DisableShaderKeyword(LightweightKeywordStrings.DepthMsaa4);
-                LightweightPipeline.CopyTexture(cmd, depthSurface, copyDepthSurface, m_DepthCopyMaterial);
+                LightweightPipeline.CopyTexture(cmd, depthSurface, copyDepthSurface, depthCopyMaterial);
             }
             context.ExecuteCommandBuffer(cmd);
             CommandBufferPool.Release(cmd);

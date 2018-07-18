@@ -18,6 +18,8 @@ namespace UnityEngine.Experimental.Rendering.LightweightPipeline
 
         public LightweightPipelineAsset pipelineAsset { get; private set; }
 
+        
+        private IRendererSetup m_DefaultRendererSetup;
         private IRendererSetup defaultRendererSetup
         {
             get
@@ -28,6 +30,8 @@ namespace UnityEngine.Experimental.Rendering.LightweightPipeline
                 return m_DefaultRendererSetup;
             }
         }
+        
+        private IRendererSetup currentRenderer { get; set; }
 
         CameraComparer m_CameraComparer = new CameraComparer();
 
@@ -36,7 +40,6 @@ namespace UnityEngine.Experimental.Rendering.LightweightPipeline
         List<int> m_LocalLightIndices = new List<int>();
 
         bool m_IsCameraRendering;
-        private IRendererSetup m_DefaultRendererSetup;
 
         public LightweightPipeline(LightweightPipelineAsset asset)
         {
@@ -134,11 +137,13 @@ namespace UnityEngine.Experimental.Rendering.LightweightPipeline
                             m_Renderer.maxSupportedLocalLightsPerPass, m_Renderer.maxSupportedVertexLights,
                             out renderingData);
 
-                        var setup = cameraData.camera.GetComponent<IRendererSetup>();
-                        if (setup == null)
-                            setup = defaultRendererSetup;
+                        var setup = cameraData.camera.GetComponent<IRendererSetupProvider>();
+                        if (setup != null && currentRenderer == null)
+                            currentRenderer = setup.Create();
+                        
+                        currentRenderer = setup == null ? defaultRendererSetup : 
 
-                        setup.Setup(m_Renderer, ref context, ref m_CullResults, ref renderingData);
+                        currentRenderer.Setup(m_Renderer, ref context, ref m_CullResults, ref renderingData);
                         m_Renderer.Execute(ref context, ref m_CullResults, ref renderingData);
                     }
 #if UNITY_EDITOR

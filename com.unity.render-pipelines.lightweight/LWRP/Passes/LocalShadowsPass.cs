@@ -30,7 +30,7 @@ namespace UnityEngine.Experimental.Rendering.LightweightPipeline
         
         private RenderTargetHandle destination { get; set; }
 
-        public LocalShadowsPass(LightweightForwardRenderer renderer) : base(renderer)
+        public LocalShadowsPass()
         {
             RegisterShaderPassName("ShadowCaster");
 
@@ -57,7 +57,8 @@ namespace UnityEngine.Experimental.Rendering.LightweightPipeline
             this.destination = destination;
         }
 
-        public override void Execute(ref ScriptableRenderContext context, ref CullResults cullResults, ref RenderingData renderingData)
+        public override void Execute(ref ScriptableRenderContext context, ref CullResults cullResults,
+            ref RenderingData renderingData)
         {
             if (renderingData.shadowData.renderLocalShadows)
             {

@@ -5,19 +5,14 @@ namespace UnityEngine.Experimental.Rendering.LightweightPipeline
 {
     public abstract class ScriptableRenderPass
     {
-        protected LightweightForwardRenderer renderer { get; }
-
         private List<ShaderPassName> m_ShaderPassNames = new List<ShaderPassName>();
-
-        protected ScriptableRenderPass(LightweightForwardRenderer renderer)
-        {
-            this.renderer = renderer;
-        }
 
         public virtual void Dispose(CommandBuffer cmd)
         {}
 
-        public abstract void Execute(ref ScriptableRenderContext context, ref CullResults cullResults, ref RenderingData renderingData);
+        public abstract void Execute(ref ScriptableRenderContext context,
+            ref CullResults cullResults,
+            ref RenderingData renderingData);
 
         protected void RegisterShaderPassName(string passName)
         {

@@ -31,7 +31,8 @@ namespace UnityEngine.Experimental.Rendering.LightweightPipeline
             descriptor = baseDescriptor;
         }
 
-        public override void Execute(ref ScriptableRenderContext context, ref CullResults cullResults, ref RenderingData renderingData)
+        public override void Execute(ref ScriptableRenderContext context, ref CullResults cullResults,
+            ref RenderingData renderingData, LightweightForwardRenderer renderer)
         {
             if (renderingData.shadowData.renderedDirectionalShadowQuality == LightShadows.None)
                 return;

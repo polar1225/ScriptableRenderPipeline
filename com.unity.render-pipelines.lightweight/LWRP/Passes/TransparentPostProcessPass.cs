@@ -19,7 +19,9 @@ namespace UnityEngine.Experimental.Rendering.LightweightPipeline
             descriptor = baseDescriptor;
         }
 
-        public override void Execute(ref ScriptableRenderContext context, ref CullResults cullResults, ref RenderingData renderingData)
+        public override void Execute(ref ScriptableRenderContext context,
+            ref CullResults cullResults,
+            ref RenderingData renderingData)
         {
             CommandBuffer cmd = CommandBufferPool.Get("Render PostProcess Effects");
             LightweightPipeline.RenderPostProcess(cmd, renderer.postProcessRenderContext, ref renderingData.cameraData, descriptor.colorFormat, colorAttachmentHandle.Identifier(), BuiltinRenderTextureType.CameraTarget, false);
