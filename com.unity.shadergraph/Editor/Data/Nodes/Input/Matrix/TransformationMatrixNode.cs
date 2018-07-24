@@ -6,7 +6,6 @@ using UnityEngine;
 
 namespace UnityEditor.ShaderGraph
 {
-    // TODO - Remove this when leaving preview
     public enum TransformationMatrixType
     {
         None = -1,
@@ -47,7 +46,6 @@ namespace UnityEditor.ShaderGraph
             {UnityMatrixType.InverseViewProjection, "UNITY_MATRIX_I_VP"},
         };
         
-        // TODO - Remove this when leaving preview
         static Dictionary<TransformationMatrixType, UnityMatrixType> m_MatrixUpgrade = new Dictionary<TransformationMatrixType, UnityMatrixType>
         {
             {TransformationMatrixType.ModelView, UnityMatrixType.Model},
@@ -60,12 +58,11 @@ namespace UnityEditor.ShaderGraph
             {TransformationMatrixType.WorldToObject, UnityMatrixType.InverseModel},
         };
 
-        // TODO - Remove this when leaving preview
         [SerializeField]
         private TransformationMatrixType m_matrix = TransformationMatrixType.ModelView;
 
         [SerializeField]
-        private UnityMatrixType m_Matrix = UnityMatrixType.Model;
+        private UnityMatrixType m_MatrixType = UnityMatrixType.Model;
 
         private const int kOutputSlotId = 0;
         private const string kOutputSlotName = "Out";
@@ -73,15 +70,15 @@ namespace UnityEditor.ShaderGraph
         public override bool hasPreview { get { return false; } }
 
         [EnumControl("")]
-        public UnityMatrixType matrix
+        public UnityMatrixType matrixType
         {
-            get { return m_Matrix; }
+            get { return m_MatrixType; }
             set
             {
-                if (m_Matrix == value)
+                if (m_MatrixType == value)
                     return;
 
-                m_Matrix = value;
+                m_MatrixType = value;
                 Dirty(ModificationScope.Graph);
             }
         }
@@ -99,11 +96,9 @@ namespace UnityEditor.ShaderGraph
 
         public sealed override void UpdateNodeAfterDeserialization()
         {
-            // TODO - Remove this when leaving preview
-            // Upgrade from legacy matrix definitions
             if(m_matrix != TransformationMatrixType.None)
             {
-                m_Matrix = m_MatrixUpgrade[m_matrix];
+                m_MatrixType = m_MatrixUpgrade[m_matrix];
                 m_matrix = TransformationMatrixType.None;
             }
 
@@ -113,7 +108,7 @@ namespace UnityEditor.ShaderGraph
 
         public override string GetVariableNameForSlot(int slotId)
         {
-            return m_MatrixList[matrix].ToString(CultureInfo.InvariantCulture);
+            return m_MatrixList[matrixType].ToString(CultureInfo.InvariantCulture);
         }
 
         public bool RequiresVertexColor()
